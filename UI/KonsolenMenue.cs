@@ -8,9 +8,9 @@ namespace Industrieroboter;
 
 internal class KonsolenMenue
 {
-    public static void Menue(Industrieroboter  roboter)
+    public static void Menue(Industrieroboter roboter)
     {
-        
+
         bool weiter = true;
 
         while (weiter)
@@ -60,6 +60,20 @@ internal class KonsolenMenue
         }
     }
 
+    static int LeseZahl()
+    {
+        int zahl;
+
+        while (true)
+        {
+            if (int.TryParse(Console.ReadLine(), out zahl))
+            {
+                return zahl;
+            }
+
+            Console.Write("Ungültige Eingabe. Bitte eine Zahl eingeben: ");
+        }
+    }
 
     static int LeseZahl(int min, int max)
     {
@@ -85,9 +99,22 @@ internal class KonsolenMenue
 
     static void WerkzeugHinzufuegen(Industrieroboter roboter)
     {
-        int maxAuswahl = roboter.MaxAnzahlWerkzeuge - 1;
-        Console.Write($"Welchen Platz möchten Sie verwenden (0-{maxAuswahl})? ");
-        int platz = LeseZahl(0, maxAuswahl);
+        //int maxAuswahl = roboter.MaxAnzahlWerkzeuge - 1;
+        //Console.Write($"Welchen Platz möchten Sie verwenden (0-{maxAuswahl})? ");
+        //int platz = LeseZahl(0, maxAuswahl);
+
+        Console.Write($"Welchen Platz möchten Sie verwenden? ");
+        int platz = LeseZahl();
+
+        try
+        {
+            bool erfolg = roboter.PlatzPruefen(platz);
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return;
+        }
 
         Console.WriteLine();
         Console.WriteLine("=== Werkzeugart auswählen ===");
@@ -101,44 +128,59 @@ internal class KonsolenMenue
         Werkzeug neu = null;
 
         Console.Write("Verschleiß in Prozent: ");
-        int verschleiss = LeseZahl(0, 100);
-
-        switch (art)
+        int verschleiss = LeseZahl(); // (0, 100);
+        try
         {
-            case 1:
+            switch (art)
+            {
+                case 1:
 
-                Console.Write("Größe des Bohrers: ");
-                int groesse = LeseZahl(0, int.MaxValue);
+                    Console.Write("Größe des Bohrers: ");
+                    int groesse = LeseZahl(0, int.MaxValue);
 
-                neu = new Bohrer("Bohrer", verschleiss, groesse);
-                break;
+                    neu = new Bohrer("Bohrer", verschleiss, groesse);
+                    break;
 
-            case 2:
-
-
-                neu = new Greifer("Greifer", verschleiss);
-                break;
-
-            case 3:
+                case 2:
 
 
-                neu = new Schweisser("Schweisser", verschleiss);
-                break;
+                    neu = new Greifer("Greifer", verschleiss);
+                    break;
+
+                case 3:
 
 
+                    neu = new Schweisser("Schweisser", verschleiss);
+                    break;
+
+
+            }
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return;
         }
 
         roboter.WerkzeugHinzufuegen(platz, neu);
+        
     }
 
 
     static void WerkzeugEntfernen(Industrieroboter roboter)
     {
-        int maxAuswahl = roboter.MaxAnzahlWerkzeuge - 1;
+        //int maxAuswahl = roboter.MaxAnzahlWerkzeuge - 1;
         Console.Write("Welches Werkzeug soll entfernt werden? Platz: ");
-        int platz = LeseZahl(0, maxAuswahl);
+        int platz = LeseZahl();
+        try
+        {
+            roboter.WerkzeugEntfernen(platz);
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
 
-        roboter.WerkzeugEntfernen(platz);
     }
 
 
@@ -166,10 +208,18 @@ internal class KonsolenMenue
 
     static void WerkzeugBenutzen(Industrieroboter roboter)
     {
-        int maxAuswahl = roboter.MaxAnzahlWerkzeuge - 1;
+        //int maxAuswahl = roboter.MaxAnzahlWerkzeuge - 1;
         Console.Write("Welches Werkzeug möchten Sie benutzen? Platz: ");
-        int platz = LeseZahl(0, maxAuswahl);
-
+        int platz = LeseZahl();
+        try
+        {
+            roboter.PlatzPruefen(platz);
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return;
+        }
         Werkzeug werkzeug = roboter.WerkzeugAnzeigen(platz);
 
         if (werkzeug == null)
@@ -192,10 +242,18 @@ internal class KonsolenMenue
 
     static void WerkzeugWarten(Industrieroboter roboter)
     {
-        int maxAuswahl = roboter.MaxAnzahlWerkzeuge - 1;
+        //int maxAuswahl = roboter.MaxAnzahlWerkzeuge - 1;
         Console.Write("Welches Werkzeug soll gewartet werden? Platz: ");
-        int platz = LeseZahl(0, maxAuswahl);
-
+        int platz = LeseZahl();
+        try
+        {
+            roboter.PlatzPruefen(platz);
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return;
+        }
         Werkzeug werkzeug = roboter.WerkzeugAnzeigen(platz);
 
         if (werkzeug == null)

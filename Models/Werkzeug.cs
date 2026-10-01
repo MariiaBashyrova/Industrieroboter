@@ -12,7 +12,8 @@ public abstract class Werkzeug
 
     protected int _verschleiss;
     public int Verschleiss { get => _verschleiss;
-             set => _verschleiss=value>100 || value<0?throw new ArgumentOutOfRangeException():value; }
+             set => _verschleiss=value>100 || value<0?throw new ArgumentOutOfRangeException(nameof(value),
+            $"Verschleiss {value} ist ungültig.") :value; }
     public string Art { get => _art; set => _art = value; }
 
     public Werkzeug(string art, int verschleiss)
