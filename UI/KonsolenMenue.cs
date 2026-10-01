@@ -96,7 +96,21 @@ internal class KonsolenMenue
         }
     }
 
+    static T EnumAuswaehlen<T>() where T : Enum
+    {
+        T[] werte = (T[])Enum.GetValues(typeof(T));
 
+        for (int i = 0; i < werte.Length; i++)
+        {
+            Console.WriteLine($"{i + 1}. {werte[i]}");
+        }
+
+        Console.Write("Ihre Auswahl: ");
+
+        int auswahl = LeseZahl(1, werte.Length);
+
+        return werte[auswahl - 1];
+    }
     static void WerkzeugHinzufuegen(Industrieroboter roboter)
     {
         //int maxAuswahl = roboter.MaxAnzahlWerkzeuge - 1;
@@ -138,19 +152,28 @@ internal class KonsolenMenue
                     Console.Write("Größe des Bohrers: ");
                     int groesse = LeseZahl(0, int.MaxValue);
 
-                    neu = new Bohrer("Bohrer", verschleiss, groesse);
+                    Console.WriteLine("=== Bohrerart auswählen ===");
+                    BohrerArt bohrerArt = EnumAuswaehlen<BohrerArt>();
+
+                    neu = new Bohrer("Bohrer", verschleiss, groesse, bohrerArt);
                     break;
 
                 case 2:
 
 
-                    neu = new Greifer("Greifer", verschleiss);
+                    Console.WriteLine("=== Greiferart auswählen ===");
+                    GreiferArt greiferArt = EnumAuswaehlen<GreiferArt>();
+
+                    neu = new Greifer("Greifer", verschleiss, greiferArt);
                     break;
 
                 case 3:
 
 
-                    neu = new Schweisser("Schweisser", verschleiss);
+                    Console.WriteLine("=== Schweisserart auswählen ===");
+                    SchweisserArt schweisserArt = EnumAuswaehlen<SchweisserArt>();
+
+                    neu = new Schweisser("Schweisser", verschleiss, schweisserArt);
                     break;
 
 

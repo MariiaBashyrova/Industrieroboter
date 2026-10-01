@@ -24,38 +24,3 @@ public abstract class Werkzeug
 
     public abstract void Ausgeben();
 }
-
-public class Bohrer : Werkzeug
-{
-    private int Groesse;
-    public Bohrer(string art, int verschleiss, int groesse) : base(art, verschleiss)
-    {
-        Groesse = groesse;
-    }
-    public override void Ausgeben()
-    {
-        Console.WriteLine($"Bohrer mit Groesse {Groesse} (Verschleiss {Verschleiss} %).");
-    }
-}
-
-public class Greifer : Werkzeug
-{
-   public Greifer(string art, int verschleiss) : base(art, verschleiss)
-    {
-    }
-    public override void Ausgeben()
-    {
-        Console.WriteLine($"Greifer (Verschleiss {Verschleiss} %).");
-    }
-}
-
-public class Schweisser : Werkzeug
-{
-    public Schweisser(string art, int verschleiss) : base(art, verschleiss)
-    {
-    }
-    public override void Ausgeben()
-    {
-        Console.WriteLine($"Schweisser (Verschleiss {Verschleiss} %).");
-    }
-}
