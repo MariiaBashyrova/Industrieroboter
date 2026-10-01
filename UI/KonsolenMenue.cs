@@ -39,6 +39,7 @@ internal class KonsolenMenue
 
                 case 3:
                     WerkzeugkastenAnzeigen(roboter);
+                    StatistikAnzeigen(roboter);
                     break;
 
                 case 4:
@@ -207,5 +208,53 @@ internal class KonsolenMenue
 
         Console.Write("Werkzeug nach der Wartung: ");
         werkzeug.Ausgeben();
+    }
+    static void StatistikAnzeigen(Industrieroboter roboter)
+    {
+        int anzahlWerkzeuge = 0;
+        int summeVerschleiss = 0;
+        int maxVerschleiss = -1;
+        Werkzeug staerkstesVerschlissenesWerkzeug = null;
+        int platzMaxVerschleiss = -1;
+
+        for (int i = 0; i < roboter.MaxAnzahlWerkzeuge; i++)
+        {
+            Werkzeug werkzeug = roboter.WerkzeugAnzeigen(i);
+
+            if (werkzeug != null)
+            {
+                anzahlWerkzeuge++;
+                summeVerschleiss += werkzeug.Verschleiss;
+
+                if (werkzeug.Verschleiss > maxVerschleiss)
+                {
+                    maxVerschleiss = werkzeug.Verschleiss;
+                    staerkstesVerschlissenesWerkzeug = werkzeug;
+                    platzMaxVerschleiss = i;
+                }
+            }
+        }
+
+        int freiePlaetze = roboter.MaxAnzahlWerkzeuge - anzahlWerkzeuge;
+
+        Console.WriteLine();
+        Console.WriteLine("=== Statistik ===");
+
+        Console.WriteLine($"Belegte Plätze: {anzahlWerkzeuge}");
+        Console.WriteLine($"Freie Plätze: {freiePlaetze}");
+
+        if (anzahlWerkzeuge > 0)
+        {
+            double durchschnitt = (double)summeVerschleiss / anzahlWerkzeuge;
+
+            Console.WriteLine($"Durchschnittlicher Verschleiß: {durchschnitt:F1} %");
+
+            Console.Write($"Stärkster Verschleiß auf Platz {platzMaxVerschleiss}: ");
+            staerkstesVerschlissenesWerkzeug.Ausgeben();
+        }
+        else
+        {
+            Console.WriteLine("Keine Werkzeuge vorhanden.");
+        }
     }
 }
