@@ -1,10 +1,13 @@
-﻿namespace Industrieroboter;
+﻿
+namespace Industrieroboter;
 
 internal class Program
 {
     static void Main(string[] args)
     {
-        Testprogramm();
+        // Testprogramm();
+        Industrieroboter roboter = new Industrieroboter();
+        KonsolenMenue.Menue(roboter);
     }
 
     static void Testprogramm()
@@ -21,4 +24,6 @@ internal class Program
         roboter.WerkzeugEntfernen(10);
         roboter.WerkzeugEntfernen(-1);
     }
+
+    
 }

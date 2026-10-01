@@ -54,4 +54,33 @@ public class Industrieroboter
                 return false;
             }
     }
+
+    public Werkzeug WerkzeugAnzeigen(int platz)
+    {
+        if (platz < 0 || platz >= maxAnzWerkzeuge)
+            return null;
+
+        return werkzeugKasten[platz];
+    }
+
+    public int AnzahlWerkzeuge
+    {
+        get
+        {
+            int anzahl = 0;
+
+            for (int i = 0; i < maxAnzWerkzeuge; i++)
+            {
+                if (werkzeugKasten[i] != null)
+                    anzahl++;
+            }
+
+            return anzahl;
+        }
+    }
+
+    public int MaxAnzahlWerkzeuge
+    {
+        get { return maxAnzWerkzeuge; }
+    }
 }
