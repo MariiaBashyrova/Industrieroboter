@@ -8,9 +8,15 @@ namespace Industrieroboter;
 
 public class Industrieroboter
 {
-    static readonly int maxAnzWerkzeuge = 10;
+    private static readonly int maxAnzWerkzeuge = 10;
+    // private const int MAX_ANZ_WERKZEUGE = 10;  
 
-    Werkzeug[] werkzeugKasten = new Werkzeug[maxAnzWerkzeuge];
+    private Werkzeug[] werkzeugKasten; //Aggregation: Industrieroboter hat Werkzeuge
+
+    public Industrieroboter()
+    {
+        werkzeugKasten = new Werkzeug[maxAnzWerkzeuge];
+    }
 
     public bool WerkzeugHinzufuegen(int platz, Werkzeug neu)
     {
@@ -76,10 +82,15 @@ public class Industrieroboter
 
     public Werkzeug WerkzeugAnzeigen(int platz)
     {
-        if (platz < 0 || platz >= maxAnzWerkzeuge)
+        if (!PlatzPruefen(platz))
             return null;
 
         return werkzeugKasten[platz];
+    }
+
+    public Werkzeug this[int platz]
+    {
+        get => WerkzeugAnzeigen(platz); // Indexer roboter[platz] gibt das Werkzeug an dem angegebenen Platz zurück
     }
 
     public int AnzahlWerkzeuge
